@@ -3,7 +3,7 @@ import type { {{ModelName}}QueryParamsProps } from '../../infra/http/dtos/create
 import { {{ModelName}}Repository } from '../repositories/{{toKebab ModelName}}.repository';
 
 @Injectable()
-export class List{{ModelName}}sUseCase {
+export class List{{ModuleName}}UseCase {
   constructor(private readonly {{singularName}}Repository: {{ModelName}}Repository) {}
 
   async execute(queryParams: {{ModelName}}QueryParamsProps) {

@@ -186,7 +186,7 @@ export function buildFiles(
       repoPropName: `${singularName}Repository`,
       entityVarName: `${singularName}`,
     }),
-  [`${baseDir}/core/use-cases/list-${moduleName}.use-case.ts`]: tplUsecaseList({ ModelName: modelName, singularName, pluralName: moduleName }),
+  [`${baseDir}/core/use-cases/list-${moduleName}.use-case.ts`]: tplUsecaseList({ ModelName: modelName, singularName, pluralName: moduleName, ModuleName }),
     [`${baseDir}/core/use-cases/update-${singularName}.use-case.ts`]: tplUsecaseUpdate({
       ModelName: modelName,
       singularName,
