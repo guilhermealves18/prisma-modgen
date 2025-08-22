@@ -2,8 +2,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { createPaginator, type PaginatedResult } from 'prisma-pagination';
-import { {{ModelName}}Entity } from 'src/app/modules/{{toKebab singularName}}/core/entities/{{toKebab ModelName}}.entity';
-import { {{ModelName}}Repository } from 'src/app/modules/{{toKebab singularName}}/core/repositories/{{toKebab ModelName}}.repository';
+import { {{ModelName}}Entity } from 'src/app/modules/{{toKebab moduleName}}/core/entities/{{toKebab ModelName}}.entity';
+import { {{ModelName}}Repository } from 'src/app/modules/{{toKebab moduleName}}/core/repositories/{{toKebab ModelName}}.repository';
 import { PrismaService } from 'src/app/modules/database/prisma/prisma.service';
 import type {
   {{ModelName}}QueryParamsProps,
