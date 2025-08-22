@@ -1,0 +1,127 @@
+
+import { Inject, Injectable } from '@nestjs/common';
+import { plainToClass } from 'class-transformer';
+import { createPaginator, type PaginatedResult } from 'prisma-pagination';
+import { {{ModelName}}Entity } from 'src/app/modules/{{toKebab singularName}}/core/entities/{{toKebab ModelName}}.entity';
+import { {{ModelName}}Repository } from 'src/app/modules/{{toKebab singularName}}/core/repositories/{{toKebab ModelName}}.repository';
+import { PrismaService } from 'src/app/modules/database/prisma/prisma.service';
+import type {
+  {{ModelName}}QueryParamsProps,
+  Create{{ModelName}}Dto,
+  Paginated{{ModelName}},
+} from '../../../http/dtos/create-{{toKebab ModelName}}.dto';
+import type { Update{{ModelName}}Dto } from '../../../http/dtos/update-{{toKebab ModelName}}.dto';
+import { Prisma{{ModelName}}Mapper } from '../mappers/prisma.{{toKebab ModelName}}.mapper';
+
+@Injectable()
+export class Prisma{{ModelName}}Repository implements {{ModelName}}Repository {
+  constructor(
+    @Inject('PrismaService')
+    private readonly prisma: PrismaService,
+  ) { }
+
+  async create(data: Create{{ModelName}}Dto): Promise<{{ModelName}}Entity> {
+    const { ...dataWithoutRelations } =
+      Prisma{{ModelName}}Mapper.fromAppToPrisma(data);
+
+  const create = await this.prisma.{{singularName}}.create({
+      data: dataWithoutRelations,
+      omit: {
+        deletedAt: true,
+      }
+    });
+
+    return plainToClass({{ModelName}}Entity, create);
+  }
+
+  async update(id: string, data: Update{{ModelName}}Dto): Promise<{{ModelName}}Entity> {
+    const { ...dataWithoutRelations } =
+      Prisma{{ModelName}}Mapper.fromAppToPrisma(data);
+
+  const update = await this.prisma.{{singularName}}.upsert({
+      where: {
+        id,
+        deletedAt: null,
+      },
+      create: {
+        ...dataWithoutRelations,
+        updatedAt: new Date(),
+      },
+      update: {
+        ...dataWithoutRelations,
+        updatedAt: new Date(),
+        deletedAt: null,
+      },
+      omit: {
+        deletedAt: true,
+      }
+    });
+
+    return plainToClass({{ModelName}}Entity, update);
+  }
+
+  async delete(id: string): Promise<void> {
+    const now = new Date();
+
+    await this.prisma.$transaction(async (table) => {
+  await table.{{singularName}}.update({
+        where: { id },
+        data: { deletedAt: now },
+      });
+    });
+  }
+
+  async findById(id: string): Promise<{{ModelName}}Entity> {
+  const result = await this.prisma.{{singularName}}.findUnique({
+      where: {
+        id,
+      },
+      omit: {
+        deletedAt: true,
+      }
+    });
+
+    return plainToClass({{ModelName}}Entity, result);
+  }
+
+  async list(queryParams: {{ModelName}}QueryParamsProps): Promise<Paginated{{ModelName}}> {
+    const { order, page, perPage, sort, term, id } = queryParams;
+
+    const paginate = createPaginator({
+      page: Number(page),
+      perPage: Number(perPage),
+    });
+
+    const data: PaginatedResult<{{ModelName}}Entity> = await paginate(
+      this.prisma.{{singularName}},
+      {
+        where: {
+          deletedAt: null,
+          ...id && { id },
+          {{#if hasSearchableFields}}
+          ...(term && {
+            OR: [
+              {{#each searchableFields}}
+              {
+                {{this}}: {
+                  contains: term,
+                  mode: 'insensitive',
+                },
+              },
+              {{/each}}
+            ],
+          }),
+          {{/if}}
+        },
+        orderBy: {
+          [sort || 'createdAt']: order || 'asc',
+        },
+        omit: {
+          deletedAt: true,
+        }
+      },
+    );
+
+    return data;
+  }
+}

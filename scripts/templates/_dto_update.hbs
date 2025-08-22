@@ -1,0 +1,25 @@
+import { PartialType } from '@nestjs/mapped-types';
+import { Create{{ModelName}}Dto } from './create-{{toKebab ModelName}}.dto';
+
+export class Update{{ModelName}}Dto extends PartialType(Create{{ModelName}}Dto) {
+  constructor(partial: Partial<Update{{ModelName}}Dto>) {
+    super(partial);
+  }
+
+{{#each fields}}
+  {{!-- redeclare only fields that were required in create DTO (isRequired true) and not id --}}
+  {{#unless isId}}
+    {{#if isRequired}}
+      {{#if (inArray validators "IsUUID")}}
+  @IsUUID('4', { message: 'The {{name}} must be a valid UUID.' })
+      {{/if}}
+  @IsOptional()
+      {{#if (inArray validators "IsString")}}
+  @IsString({ message: 'The {{name}} must be a string.' })
+      {{/if}}
+  {{name}}: {{{tsType}}};
+    {{/if}}
+  {{/unless}}
+
+{{/each}}
+}

@@ -1,0 +1,48 @@
+{
+  "name": "prisma-modgen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc -p tsconfig.json && cp -R scripts/templates dist/scripts/templates || true",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write .",
+    "gen:module": "tsx scripts/generate-module.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.13.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "prisma-modgen": "dist/scripts/generate-module.js"
+  },
+  "files": [
+    "dist",
+    "scripts",
+    "README.md"
+  ],
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "@types/pluralize": "^0.0.33",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.1.4",
+    "prettier": "^3.0.0",
+    "tsx": "^4.20.4",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@prisma/internals": "^6.14.0",
+    "handlebars": "^4.7.8",
+    "pluralize": "^8.0.0"
+  }
+}

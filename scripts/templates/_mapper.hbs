@@ -1,0 +1,16 @@
+import type { Create{{ModelName}}Dto } from '../../infra/http/dtos/create-{{toKebab ModelName}}.dto';
+
+export class {{ModelName}}Mapper {
+  static fromAppToEntity(
+    data: Create{{ModelName}}Dto & {
+      createdAt?: Date;
+    },
+  ) {
+    return {
+      ...data,
+      ...(!data.id && {
+        createdAt: data.createdAt ?? new Date(),
+      }),
+    };
+  }
+}

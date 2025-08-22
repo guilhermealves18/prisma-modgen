@@ -1,0 +1,43 @@
+name: Publish package
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+          scope: '@guilhermealves18'
+          always-auth: true
+      - name: Enable Corepack (pnpm)
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm run build
+      - name: Verify npm auth
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          # write token to npmrc and check whoami for debugging auth issues
+          printf "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}\n" > ~/.npmrc
+          npm whoami || echo "npm whoami failed (no auth)"
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          # ensure npm auth is available for pnpm publish
+          printf "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}\n" >> ~/.npmrc
+          # disable pnpm git checks because Actions checks out tags in a detached HEAD
+          pnpm publish --access public --no-git-checks

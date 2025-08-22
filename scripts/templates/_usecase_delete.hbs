@@ -1,0 +1,17 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { {{ModelName}}Repository } from '../repositories/{{singularName}}.repository';
+
+@Injectable()
+export class Delete{{ModelName}}UseCase {
+  constructor(private readonly {{repoPropName}}: {{ModelName}}Repository) {}
+
+  async execute(id: string) {
+    const {{entityVarName}} = await this.{{repoPropName}}.findById(id);
+
+    if (!{{entityVarName}}) {
+      throw new NotFoundException('{{ModelName}} with this ID does not exist');
+    }
+
+    return await this.{{repoPropName}}.delete(id);
+  }
+}

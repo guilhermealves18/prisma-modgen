@@ -1,0 +1,22 @@
+
+import type {
+  {{ModelName}}QueryParamsProps,
+  Create{{ModelName}}Dto,
+  Paginated{{ModelName}},
+} from '../../infra/http/dtos/create-{{toKebab ModelName}}.dto';
+import type { Update{{ModelName}}Dto } from '../../infra/http/dtos/update-{{toKebab ModelName}}.dto';
+import type { {{ModelName}}Entity } from '../entities/{{toKebab ModelName}}.entity';
+
+export abstract class {{ModelName}}Repository {
+  abstract create(data: Create{{ModelName}}Dto): Promise<{{ModelName}}Entity>;
+
+  abstract update(id: string, data: Update{{ModelName}}Dto): Promise<{{ModelName}}Entity>;
+
+  abstract delete(id: string): Promise<void>;
+
+  abstract findById(id: string): Promise<{{ModelName}}Entity>;
+ 
+  abstract list(
+    queryParams: {{ModelName}}QueryParamsProps,
+  ): Promise<Paginated{{ModelName}}>;
+}

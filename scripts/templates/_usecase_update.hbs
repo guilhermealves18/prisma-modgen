@@ -1,0 +1,40 @@
+{{#if hasEmail}}
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+{{else}}
+import { Injectable, NotFoundException } from '@nestjs/common';
+{{/if}}
+import type { Update{{ModelName}}Dto } from '../../infra/http/dtos/update-{{toKebab ModelName}}.dto';
+import { {{ModelName}}Entity } from '../entities/{{toKebab ModelName}}.entity';
+import { {{ModelName}}Mapper } from '../mappers/{{toKebab ModelName}}.mapper';
+import { {{ModelName}}Repository } from '../repositories/{{toKebab ModelName}}.repository';
+
+@Injectable()
+export class Update{{ModelName}}UseCase {
+  constructor(private readonly {{repoPropName}}: {{ModelName}}Repository) {}
+
+  async execute(id: string, data: Update{{ModelName}}Dto) {
+    const existing = await this.{{repoPropName}}.findById(id);
+
+    if (!existing) {
+      throw new NotFoundException('No {{singularName}} found with this id');
+    }
+
+    {{#if hasEmail}}
+    if (data.email) {
+      const found = await this.{{repoPropName}}.findByEmail(data.email);
+      if (found && found.id !== id) {
+        throw new ConflictException('Email is already in use by another {{singularName}}');
+      }
+    }
+    {{/if}}
+
+    const merged = {
+      ...existing,
+      ...Object.fromEntries(Object.entries(data).filter(([_, value]) => value !== undefined)),
+    };
+
+    const {{entityVarName}} = new {{ModelName}}Entity({{ModelName}}Mapper.fromAppToEntity(merged));
+
+    return await this.{{repoPropName}}.update(id, {{entityVarName}});
+  }
+}

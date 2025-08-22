@@ -1,0 +1,14 @@
+import { Injectable } from '@nestjs/common';
+import type { {{ModelName}}QueryParamsProps } from '../../infra/http/dtos/create-{{toKebab ModelName}}.dto';
+import { {{ModelName}}Repository } from '../repositories/{{toKebab ModelName}}.repository';
+
+@Injectable()
+export class List{{ModelName}}sUseCase {
+  constructor(private readonly {{singularName}}Repository: {{ModelName}}Repository) {}
+
+  async execute(queryParams: {{ModelName}}QueryParamsProps) {
+    const {{pluralName}} = await this.{{singularName}}Repository.list(queryParams);
+
+    return {{pluralName}};
+  }
+}

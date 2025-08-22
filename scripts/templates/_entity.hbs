@@ -1,0 +1,40 @@
+{{!-- header imports are prepended by templates loader via withImports --}}
+export class {{ModelName}}Entity {
+  constructor(partial: Partial<{{ModelName}}Entity>) {
+    Object.assign(this, partial);
+  }
+
+{{#each entityFields}}
+  {{!-- render decorators in order: IsUUID (id), IsOptional, then type validators --}}
+    {{!-- prefer stable order: IsUUID, IsOptional, then type validators --}}
+    {{#if (inArray validators "IsUUID")}}
+    @IsUUID('4', { message: 'The {{name}} must be a valid UUID.' })
+    {{/if}}
+    {{#if (inArray validators "IsOptional")}}
+    @IsOptional()
+    {{/if}}
+    {{#if (inArray validators "IsString")}}
+    @IsString({ message: 'The {{name}} must be a string.' })
+    {{/if}}
+    {{#if (inArray validators "IsBoolean")}}
+    @IsBoolean({ message: 'The {{name}} must be a boolean.' })
+    {{/if}}
+    {{#if (inArray validators "IsDate")}}
+    @IsDate({ message: 'The {{name}} must be a valid date.' })
+    {{/if}}
+    {{#if (inArray validators "IsEnum")}}
+    @IsEnum({{tsType}}, { message: 'The {{name}} must be a valid {{tsType}}.' })
+    {{/if}}
+      {{#if (inArray validators "IsObject")}}
+    @IsObject({ message: 'The {{name}} must be an object.' })
+      {{/if}}
+      {{!-- property declaration --}}
+      {{#if isRequired}}
+    {{name}}: {{{tsType}}};
+      {{else}}
+    {{name}}?: {{{tsType}}};
+      {{/if}}
+
+
+{{/each}}
+}

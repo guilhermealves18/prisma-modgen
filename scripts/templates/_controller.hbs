@@ -1,0 +1,68 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Req,
+} from '@nestjs/common';
+import { Create{{ModelName}}UseCase } from '../../../core/use-cases/create-{{singularName}}.use-case';
+import { Delete{{ModelName}}UseCase } from '../../../core/use-cases/delete-{{singularName}}.use-case';
+import { Find{{ModelName}}ByIdUseCase } from '../../../core/use-cases/find-{{singularName}}-by-id.use-case';
+import { Update{{ModelName}}UseCase } from '../../../core/use-cases/update-{{singularName}}.use-case';
+
+import { List{{ModelName}}UseCase } from '../../../core/use-cases/list-{{moduleName}}.use-case';
+import { type {{ModelName}}QueryParamsProps, Create{{ModelName}}Dto } from '../dtos/create-{{singularName}}.dto';
+import type { Update{{ModelName}}Dto } from '../dtos/update-{{singularName}}.dto';
+
+import type { Request } from 'express';
+
+@Controller('{{moduleName}}')
+export class {{ModelName}}Controller {
+  constructor(
+  private readonly create{{ModelName}}UseCase: Create{{ModelName}}UseCase,
+  private readonly delete{{ModelName}}UseCase: Delete{{ModelName}}UseCase,
+  private readonly find{{ModelName}}ByIdUseCase: Find{{ModelName}}ByIdUseCase,
+  private readonly list{{ModelName}}UseCase: List{{ModelName}}UseCase,
+  private readonly update{{ModelName}}UseCase: Update{{ModelName}}UseCase,
+  ) {}
+
+  @Post()
+  async create(
+    @Req() request: Request,
+    @Body() data: Create{{ModelName}}Dto & {
+      ip: string;
+    }
+  ) {
+    const ip =
+      request.ip || (request.headers['x-forwarded-for'] as string | undefined);
+
+    return await this.create{{ModelName}}UseCase.execute({
+      ...data,
+      ip: String(ip),
+    });
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return await this.delete{{ModelName}}UseCase.execute(id);
+  }
+
+  @Get(':id')
+  async findById(@Param('id') id: string) {
+    return await this.find{{ModelName}}ByIdUseCase.execute(id);
+  }
+
+  @Get()
+  async list(@Query() query: {{ModelName}}QueryParamsProps) {
+    return await this.list{{ModelName}}UseCase.execute(query);
+  }
+
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() data: Update{{ModelName}}Dto) {
+    return await this.update{{ModelName}}UseCase.execute(id, data);
+  }
+}

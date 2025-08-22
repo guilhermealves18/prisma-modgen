@@ -1,0 +1,46 @@
+{{#if hasGoogleId}}
+import { ConflictException, Injectable } from '@nestjs/common';
+{{else}}
+{{#if hasEmail}}
+import { ConflictException, Injectable } from '@nestjs/common';
+{{else}}
+import { Injectable } from '@nestjs/common';
+{{/if}}
+{{/if}}
+import type { Create{{ModelName}}Dto } from '../../infra/http/dtos/create-{{toKebab ModelName}}.dto';
+import { {{ModelName}}Entity } from '../entities/{{toKebab ModelName}}.entity';
+import { {{ModelName}}Mapper } from '../mappers/{{toKebab ModelName}}.mapper';
+import { {{ModelName}}Repository } from '../repositories/{{toKebab ModelName}}.repository';
+
+@Injectable()
+export class Create{{ModelName}}UseCase {
+  constructor(private readonly {{repoPropName}}: {{ModelName}}Repository) {}
+
+  async execute(data: Create{{ModelName}}Dto) {
+    {{#if hasGoogleId}}
+    const find{{ModelName}}ByGoogleId = await this.{{repoPropName}}.findByGoogleId(String(data.googleId));
+
+    if (find{{ModelName}}ByGoogleId) {
+      throw new ConflictException('{{ModelName}} with this Google ID already exists');
+    }
+    {{/if}}
+
+    {{#if hasEmail}}
+    const find{{ModelName}}ByEmail = await this.{{repoPropName}}.findByEmail(data.email);
+
+    if (find{{ModelName}}ByEmail) {
+      throw new ConflictException('{{ModelName}} with this email already exists');
+    }
+    {{/if}}
+
+    const {{entityVarName}} = new {{ModelName}}Entity({{ModelName}}Mapper.fromAppToEntity(data));
+
+    const created{{ModelName}} = await this.{{repoPropName}}.create({{entityVarName}});
+
+    {{#if hasPassword}}
+    created{{ModelName}}.password = undefined;
+    {{/if}}
+
+    return created{{ModelName}};
+  }
+}

@@ -1,0 +1,32 @@
+# Ignore user project Prisma schema
+prisma/
+# Node
+node_modules/
+.pnpm-debug.log
+
+# Build
+dist/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Editor
+.DS_Store
+.vscode/
+.idea/
+
+# Misc
+coverage/
+.pnp/
+modules/
+
+# OS
+Thumbs.db
+
+# Next/.turbo/etc
+.next/
+.turbo/
+.output/
+
