@@ -1,3 +1,12 @@
+import type { BaseQueryParamsProps } from 'src/helpers/http';
+import type { PaginationProps } from 'src/helpers/pagination';
+
+export interface Paginated{{ModelName}} extends PaginationProps {
+  data: Create{{ModelName}}Dto[];
+}
+
+export type {{ModelName}}QueryParamsProps = BaseQueryParamsProps;
+
 export class Create{{ModelName}}Dto {
   constructor(partial: Partial<Create{{ModelName}}Dto>) {
     Object.assign(this, partial);
