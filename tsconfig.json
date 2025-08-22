@@ -14,6 +14,6 @@
     "noImplicitAny": false,
     "sourceMap": true
   },
-  "include": ["scripts/**/*.ts", "src/modules/**/*.ts", "prisma/**/*.ts"],
+  "include": ["scripts/**/*.ts", "src/app/modules/**/*.ts", "prisma/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }

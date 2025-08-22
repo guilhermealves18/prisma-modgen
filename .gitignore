@@ -10,7 +10,7 @@ dist/
 coverage/
 .pnp/
 # generated modules from the generator
-src/modules/
+src/app/modules/
 
 # Editor
 .DS_Store
@@ -20,7 +20,6 @@ src/modules/
 # Misc
 coverage/
 .pnp/
-modules/
 
 # OS
 Thumbs.db
