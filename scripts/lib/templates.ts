@@ -63,7 +63,7 @@ export function buildFiles(
 ): Record<string, string> {
   const moduleName = pluralize(modelName.toLowerCase());
   const singularName = pluralize.singular(modelName.toLowerCase());
-  const baseDir = `modules/${moduleName}`;
+  const baseDir = `src/modules/${moduleName}`;
 
   const fieldCtx = fields.map((f) => {
     const mapped = mapFieldType(f.type, f.kind);

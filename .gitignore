@@ -6,11 +6,11 @@ node_modules/
 
 # Build
 dist/
-
-# Env
-.env
-.env.local
-.env.*.local
+# Misc
+coverage/
+.pnp/
+# generated modules from the generator
+src/modules/
 
 # Editor
 .DS_Store
