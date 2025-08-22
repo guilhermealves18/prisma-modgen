@@ -17,6 +17,9 @@ export class Update{{ModelName}}Dto extends PartialType(Create{{ModelName}}Dto) 
       {{#if (inArray validators "IsString")}}
   @IsString({ message: 'The {{name}} must be a string.' })
       {{/if}}
+    {{#if (inArray validators "IsNumber")}}
+  @IsNumber({}, { message: 'The {{name}} must be a number.' })
+    {{/if}}
   {{name}}: {{{tsType}}};
     {{/if}}
   {{/unless}}

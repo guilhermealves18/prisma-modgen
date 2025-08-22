@@ -14,7 +14,7 @@ import { Delete{{ModelName}}UseCase } from '../../../core/use-cases/delete-{{sin
 import { Find{{ModelName}}ByIdUseCase } from '../../../core/use-cases/find-{{singularName}}-by-id.use-case';
 import { Update{{ModelName}}UseCase } from '../../../core/use-cases/update-{{singularName}}.use-case';
 
-import { List{{ModelName}}UseCase } from '../../../core/use-cases/list-{{moduleName}}.use-case';
+import { List{{ModuleName}}UseCase } from '../../../core/use-cases/list-{{moduleName}}.use-case';
 import { type {{ModelName}}QueryParamsProps, Create{{ModelName}}Dto } from '../dtos/create-{{singularName}}.dto';
 import type { Update{{ModelName}}Dto } from '../dtos/update-{{singularName}}.dto';
 
@@ -26,7 +26,7 @@ export class {{ModelName}}Controller {
   private readonly create{{ModelName}}UseCase: Create{{ModelName}}UseCase,
   private readonly delete{{ModelName}}UseCase: Delete{{ModelName}}UseCase,
   private readonly find{{ModelName}}ByIdUseCase: Find{{ModelName}}ByIdUseCase,
-  private readonly list{{ModelName}}UseCase: List{{ModelName}}UseCase,
+  private readonly list{{ModuleName}}UseCase: List{{ModuleName}}UseCase,
   private readonly update{{ModelName}}UseCase: Update{{ModelName}}UseCase,
   ) {}
 
@@ -58,7 +58,7 @@ export class {{ModelName}}Controller {
 
   @Get()
   async list(@Query() query: {{ModelName}}QueryParamsProps) {
-    return await this.list{{ModelName}}UseCase.execute(query);
+  return await this.list{{ModuleName}}UseCase.execute(query);
   }
 
   @Patch(':id')

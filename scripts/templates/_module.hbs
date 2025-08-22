@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
 import { {{ModelName}}Repository } from './core/repositories/{{singularName}}.repository';
 import { Create{{ModelName}}UseCase } from './core/use-cases/create-{{singularName}}.use-case';
+import { Module } from '@nestjs/common';
+import { {{ModelName}}Repository } from './core/repositories/{{singularName}}.repository';
+import { Create{{ModelName}}UseCase } from './core/use-cases/create-{{singularName}}.use-case';
 import { Delete{{ModelName}}UseCase } from './core/use-cases/delete-{{singularName}}.use-case';
 import { Find{{ModelName}}ByIdUseCase } from './core/use-cases/find-{{singularName}}-by-id.use-case';
-import { List{{ModelName}}UseCase } from './core/use-cases/list-{{moduleName}}.use-case';
+import { List{{ModuleName}}UseCase } from './core/use-cases/list-{{moduleName}}.use-case';
 import { Update{{ModelName}}UseCase } from './core/use-cases/update-{{singularName}}.use-case';
 import { Prisma{{ModelName}}Repository } from './infra/database/prisma/repositories/prisma.{{singularName}}.repository';
 import { {{ModelName}}Controller } from './infra/http/controllers/{{singularName}}.controller';
@@ -19,14 +22,14 @@ import { {{ModelName}}Controller } from './infra/http/controllers/{{singularName
     Create{{ModelName}}UseCase,
     Delete{{ModelName}}UseCase,
   Find{{ModelName}}ByIdUseCase,
-  List{{ModelName}}UseCase,
+  List{{ModuleName}}UseCase,
     Update{{ModelName}}UseCase,
   ],
   exports: [
     Create{{ModelName}}UseCase,
     Delete{{ModelName}}UseCase,
   Find{{ModelName}}ByIdUseCase,
-  List{{ModelName}}UseCase,
+  List{{ModuleName}}UseCase,
     Update{{ModelName}}UseCase,
   ],
 })

@@ -64,6 +64,7 @@ export function buildFiles(
   const moduleName = pluralize(modelName.toLowerCase());
   const singularName = pluralize.singular(modelName.toLowerCase());
   const baseDir = `src/app/modules/${moduleName}`;
+  const ModuleName = moduleName.charAt(0).toUpperCase() + moduleName.slice(1);
 
   const fieldCtx = fields.map((f) => {
     const mapped = mapFieldType(f.type, f.kind);
@@ -156,7 +157,7 @@ export function buildFiles(
   const tplModule = loadTemplate('_module');
 
   const files: Record<string, string> = {
-    [`${baseDir}/${moduleName}.module.ts`]: tplModule({ ModelName: modelName, moduleName, singularName }),
+  [`${baseDir}/${moduleName}.module.ts`]: tplModule({ ModelName: modelName, moduleName, singularName, ModuleName }),
 
   [`${baseDir}/core/entities/${singularName}.entity.ts`]: withImports(tplEntity({ ModelName: modelName, entityFields })),
   [`${baseDir}/core/mappers/${singularName}.mapper.ts`]: tplMapper({ ModelName: modelName, fields: fieldCtx }),
@@ -201,6 +202,7 @@ export function buildFiles(
       ModelName: modelName,
       moduleName,
       singularName,
+      ModuleName,
       hasAccountId: dtoFieldNames.includes('accountId'),
     }),
     [`${baseDir}/infra/http/dtos/create-${singularName}.dto.ts`]: withImports(tplDtoCreate({ ModelName: modelName, fields: dtoFields })),

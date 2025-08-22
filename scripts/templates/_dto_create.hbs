@@ -17,6 +17,9 @@ export class Create{{ModelName}}Dto {
     {{#if (inArray validators "IsBoolean")}}
   @IsBoolean({ message: 'The {{name}} must be a boolean.' })
     {{/if}}
+    {{#if (inArray validators "IsNumber")}}
+  @IsNumber({}, { message: 'The {{name}} must be a number.' })
+    {{/if}}
     {{#if (inArray validators "IsDate")}}
   @IsDate({ message: 'The {{name}} must be a valid date.' })
     {{/if}}
