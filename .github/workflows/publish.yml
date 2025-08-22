@@ -16,7 +16,6 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-          scope: '@guilhermealves18'
           always-auth: true
       - name: Enable Corepack (pnpm)
         run: |
