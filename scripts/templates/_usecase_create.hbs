@@ -7,6 +7,9 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 {{/if}}
 {{/if}}
+{{#if hasCustomId}}
+import { generateCompactKeyId } from 'src/helpers/security';
+{{/if}}
 import type { Create{{ModelName}}Dto } from '../../infra/http/dtos/create-{{toKebab ModelName}}.dto';
 import { {{ModelName}}Entity } from '../entities/{{toKebab ModelName}}.entity';
 import { {{ModelName}}Mapper } from '../mappers/{{toKebab ModelName}}.mapper';
@@ -33,7 +36,20 @@ export class Create{{ModelName}}UseCase {
     }
     {{/if}}
 
-    const {{entityVarName}} = new {{ModelName}}Entity({{ModelName}}Mapper.fromAppToEntity(data));
+    {{#if hasCustomId}}
+    const customId = generateCompactKeyId('{{toKebab singularName}}_');
+    
+    const { ip, ...rest } = data;
+
+    const {{entityVarName}} = new {{ModelName}}Entity({{ModelName}}Mapper.fromAppToEntity({
+      ...rest,
+      customId
+    }));
+    {{else}}
+    const { ip, ...rest } = data;
+
+    const {{entityVarName}} = new {{ModelName}}Entity({{ModelName}}Mapper.fromAppToEntity(rest));
+    {{/if}}
 
     const created{{ModelName}} = await this.{{repoPropName}}.create({{entityVarName}});
 

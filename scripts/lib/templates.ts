@@ -171,7 +171,8 @@ export function buildFiles(
     repoPropName: `${singularName}Repository`,
     entityVarName: `${singularName}Entity`,
     hasGoogleId: dtoFieldNames.includes('googleId'),
-    hasEmail: dtoFieldNames.includes('email'),
+  hasEmail: dtoFieldNames.includes('email'),
+  hasCustomId: dtoFieldNames.includes('customId'),
     hasPassword: dtoFieldNames.includes('password'),
   }),
     [`${baseDir}/core/use-cases/delete-${singularName}.use-case.ts`]: tplUsecaseDelete({
