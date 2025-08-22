@@ -43,6 +43,15 @@ if (!Handlebars.helpers.toKebab) {
   });
 }
 
+// helper to take first 4 alphanumeric characters from a string (lowercased)
+if (!Handlebars.helpers.first4) {
+  Handlebars.registerHelper('first4', function (str: string) {
+    if (!str) return '';
+    const s = String(str).toLowerCase().replace(/[^a-z0-9]/g, '');
+    return s.slice(0, 4);
+  });
+}
+
 const tplEntity = loadTemplate('_entity');
 const tplMapper = loadTemplate('_mapper');
 const tplRepository = loadTemplate('_repository');

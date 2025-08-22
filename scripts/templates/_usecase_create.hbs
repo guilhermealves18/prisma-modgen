@@ -37,7 +37,7 @@ export class Create{{ModelName}}UseCase {
     {{/if}}
 
     {{#if hasCustomId}}
-    const customId = generateCompactKeyId('{{toKebab singularName}}_');
+  const customId = generateCompactKeyId('{{first4 singularName}}_');
     
     const { ip, ...rest } = data;
 
