@@ -16,7 +16,7 @@ import { {{ModelName}}Repository } from '../repositories/{{toKebab ModelName}}.r
 export class Create{{ModelName}}UseCase {
   constructor(private readonly {{repoPropName}}: {{ModelName}}Repository) {}
 
-  async execute(data: Create{{ModelName}}Dto) {
+  async execute(data: Create{{ModelName}}Dto & { ip: string }) {
     {{#if hasGoogleId}}
     const find{{ModelName}}ByGoogleId = await this.{{repoPropName}}.findByGoogleId(String(data.googleId));
 
