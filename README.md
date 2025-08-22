@@ -90,6 +90,40 @@ pnpm dlx ./prisma-modgen-1.0.0.tgz -- Account
 
 Pass `--force` to overwrite existing files. Prefixing with `--` is supported when calling via `pnpm dlx` to pass arguments to the CLI.
 
+More example commands
+---------------------
+
+List detected models in a schema:
+
+```bash
+node dist/scripts/generate-module.js --list
+```
+
+Preview files for a model (dry run):
+
+```bash
+node dist/scripts/generate-module.js Charge --dry-run
+```
+
+Generate multiple models at once:
+
+```bash
+node dist/scripts/generate-module.js --models Charge,Business
+```
+
+Interactive selection (pick models to generate):
+
+```bash
+node dist/scripts/generate-module.js --interactive
+```
+
+Specify an alternate schema.prisma path:
+
+```bash
+node dist/scripts/generate-module.js --schema ./other/path/schema.prisma --models User
+```
+
+
 Development notes
 -----------------
 - Ensure `@prisma/internals` is in `dependencies` (the CLI reads Prisma DMMF at runtime).
